@@ -1,5 +1,5 @@
 /** Bump when replacing files in public/images so caches refresh */
-const IMG_V = "20261022e";
+const IMG_V = "20261022f";
 
 /** Query version for plain <img>/CSS; Next Image uses path-only (no search params). */
 const img = (publicPath: string) => `${publicPath}?v=${IMG_V}`;

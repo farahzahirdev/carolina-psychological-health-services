@@ -10,8 +10,9 @@ export const metadata: Metadata = {
   description: `Advanced TMS and Spravato® for treatment-resistant depression in Jacksonville, NC. Book a free consultation. Call ${PHONE_NUMBER}. TRICARE accepted.`,
   icons: {
     icon: [
+      { url: "/images/favicon.avif", type: "image/avif" },
+      { url: "/images/favicon.png", type: "image/png", sizes: "256x256" },
       { url: "/favicon.ico", sizes: "any" },
-      { url: "/images/favicon.png", type: "image/png" },
     ],
     shortcut: "/favicon.ico",
     apple: "/images/favicon.png",
