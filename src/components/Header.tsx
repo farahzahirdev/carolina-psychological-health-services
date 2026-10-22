@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { BookButton } from "@/components/CTAButtons";
 import {
   BOOKING_SECTION_ID,
@@ -21,6 +22,11 @@ const NAV = [
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -29,90 +35,106 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
+  useLayoutEffect(() => {
+    if (!menuOpen) return;
+
+    // overflow:hidden drops position:sticky, so the bar is pinned with .is-menu-open.
+    // Replace its flow space so the page underneath does not jump.
+    const header = document.querySelector(".site-header");
+    const height = header instanceof HTMLElement ? header.offsetHeight : 0;
+    const prevPad = document.body.style.paddingTop;
+    document.body.style.paddingTop = `${height}px`;
+    document.body.style.overflow = "hidden";
+
     return () => {
+      document.body.style.paddingTop = prevPad;
       document.body.style.overflow = "";
     };
   }, [menuOpen]);
 
+  const close = () => setMenuOpen(false);
+
   return (
-    <header className={`site-header${scrolled ? " is-solid" : ""}${menuOpen ? " is-menu-open" : ""}`}>
-      <div className="container-nav">
-        <a href="#" className="site-logo" aria-label={SITE_NAME}>
-          <Image
-            src={LOGO_URL}
-            alt={SITE_NAME}
-            width={1023}
-            height={244}
-            priority
-            quality={100}
-            sizes="201px"
-            unoptimized
-          />
-        </a>
-
-        <nav className="site-nav" aria-label="Primary">
-          {NAV.map((item) => (
-            <a key={item.href} href={item.href} className="site-nav-link">
-              {item.label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="site-header-actions">
-          <a href={PHONE_HREF} className="site-phone">
-            <PhoneIcon />
-            <span>{PHONE_NUMBER}</span>
+    <>
+      <header
+        className={`site-header${scrolled ? " is-solid" : ""}${menuOpen ? " is-menu-open" : ""}`}
+      >
+        <div className="container-nav relative z-[90]">
+          <a href="/" className="site-logo relative z-[90]" aria-label={SITE_NAME} onClick={close}>
+            <Image
+              src={LOGO_URL}
+              alt={SITE_NAME}
+              width={1023}
+              height={244}
+              priority
+              quality={100}
+              sizes="201px"
+              unoptimized
+            />
           </a>
-          <BookButton variant="primary" className="site-header-cta !py-2.5 sm:!px-5" />
-          <button
-            type="button"
-            className="mobile-nav-toggle"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-nav"
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            <span className="sr-only">{menuOpen ? "Close menu" : "Open menu"}</span>
-            {menuOpen ? <CloseIcon /> : <MenuIcon />}
-          </button>
-        </div>
-      </div>
 
-      {menuOpen ? (
-        <>
-          <button
-            type="button"
-            className="mobile-nav-backdrop"
-            aria-label="Close menu"
-            onClick={() => setMenuOpen(false)}
-          />
-          <div id="mobile-nav" className="mobile-nav-panel">
+          <nav className="site-nav" aria-label="Primary">
+            {NAV.map((item) => (
+              <a key={item.href} href={item.href} className="site-nav-link">
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="site-header-actions">
+            <a href={PHONE_HREF} className="site-phone">
+              <PhoneIcon />
+              <span>{PHONE_NUMBER}</span>
+            </a>
+            <BookButton variant="primary" className="site-header-cta !py-2.5 sm:!px-5" />
+            <button
+              type="button"
+              className="mobile-nav-toggle relative z-[90]"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-nav"
+              onClick={() => setMenuOpen((v) => !v)}
+            >
+              <span className="sr-only">{menuOpen ? "Close menu" : "Open menu"}</span>
+              {menuOpen ? <CloseIcon /> : <MenuIcon />}
+            </button>
+          </div>
+        </div>
+
+        {menuOpen ? (
+          <div id="mobile-nav" className="mobile-nav-panel" aria-label="Mobile navigation">
             <p className="mobile-nav-label">Menu</p>
             {NAV.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
                 className="mobile-nav-link"
-                onClick={() => setMenuOpen(false)}
+                onClick={close}
               >
                 {item.label}
               </a>
             ))}
-            <a href={PHONE_HREF} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>
+            <a href={PHONE_HREF} className="mobile-nav-link" onClick={close}>
               Call {PHONE_NUMBER}
             </a>
-            <a
-              href={`#${BOOKING_SECTION_ID}`}
-              className="mobile-nav-cta"
-              onClick={() => setMenuOpen(false)}
-            >
+            <a href={`#${BOOKING_SECTION_ID}`} className="mobile-nav-cta" onClick={close}>
               Book your Free Consultation
             </a>
           </div>
-        </>
-      ) : null}
-    </header>
+        ) : null}
+      </header>
+
+      {mounted &&
+        menuOpen &&
+        createPortal(
+          <button
+            type="button"
+            className="mobile-nav-backdrop lg:hidden"
+            aria-label="Close menu"
+            onClick={close}
+          />,
+          document.body,
+        )}
+    </>
   );
 }
 

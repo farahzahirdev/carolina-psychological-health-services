@@ -210,7 +210,13 @@ li {
 }
 
 .site-header.is-menu-open {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 80;
+  background: #ffffff;
 }
 
 .site-logo {
@@ -287,13 +293,14 @@ li {
   background: rgba(40, 51, 67, 0.4);
   border: 0;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-nav-panel {
   position: absolute;
   inset-inline: 1rem;
   top: calc(100% + 0.5rem);
-  z-index: 80;
+  z-index: 90;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
