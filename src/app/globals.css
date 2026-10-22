@@ -794,11 +794,18 @@ li {
   display: grid;
   gap: 1.75rem;
   align-items: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.cphs-service > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 @media (min-width: 1024px) {
   .cphs-service {
-    grid-template-columns: 1.05fr 1fr;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
     gap: 3rem;
   }
 
@@ -813,7 +820,9 @@ li {
 
 .cphs-service-media {
   position: relative;
-  min-height: 280px;
+  width: 100%;
+  max-width: 100%;
+  min-height: 240px;
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--color-cream-deep);
@@ -823,6 +832,7 @@ li {
 
 .cphs-service-media img {
   object-fit: cover !important;
+  max-width: none;
   transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 

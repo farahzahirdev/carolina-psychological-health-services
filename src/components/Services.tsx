@@ -19,7 +19,7 @@ export default function Services() {
           {SERVICES.map((service, index) => {
             const reverse = index % 2 === 1;
             return (
-              <Reveal key={service.id}>
+              <Reveal key={service.id} className="min-w-0 max-w-full">
                 <article
                   id={service.id}
                   className={`cphs-service${reverse ? " is-reverse" : ""}`}
@@ -32,7 +32,7 @@ export default function Services() {
                       alt={service.imageAlt}
                       fill
                       quality={90}
-                      sizes="(max-width: 1023px) 100vw, 48vw"
+                      sizes="(max-width: 1023px) calc(100vw - 2rem), 48vw"
                       className={service.id === "spravato" ? "object-contain" : "object-cover"}
                     />
                   </div>
