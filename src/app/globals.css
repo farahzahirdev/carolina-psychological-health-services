@@ -1018,18 +1018,28 @@ li {
   display: grid;
   gap: 2rem;
   align-items: center;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Prevent grid/Reveal children from overflowing the viewport on mobile */
+.cphs-why-grid > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 @media (min-width: 1024px) {
   .cphs-why-grid {
-    grid-template-columns: 0.95fr 1.05fr;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
     gap: 3.25rem;
   }
 }
 
 .cphs-why-media {
   position: relative;
-  min-height: 300px;
+  width: 100%;
+  max-width: 100%;
+  min-height: 240px;
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--color-cream-deep);
@@ -1039,6 +1049,7 @@ li {
 
 .cphs-why-media img {
   object-fit: cover !important;
+  max-width: none;
   transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 

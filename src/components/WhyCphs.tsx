@@ -15,7 +15,7 @@ export default function WhyCphs() {
                 alt="Front entrance of Carolina Psychological Health Services in Jacksonville, NC"
                 fill
                 quality={90}
-                sizes="(max-width: 1023px) 100vw, 46vw"
+                sizes="(max-width: 1023px) calc(100vw - 2rem), 46vw"
                 className="object-cover"
               />
             </div>
@@ -39,9 +39,9 @@ export default function WhyCphs() {
                 ))}
               </ul>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <BookButton variant="primary" />
-                <CallButton variant="outline" />
+              <div className="mt-8 flex max-w-full flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <BookButton variant="primary" className="w-full sm:w-auto" />
+                <CallButton variant="outline" className="w-full sm:w-auto" />
               </div>
             </div>
           </Reveal>
