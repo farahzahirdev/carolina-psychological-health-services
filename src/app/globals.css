@@ -409,11 +409,14 @@ li {
 }
 
 .cphs-hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 0.55rem;
-  margin: 0;
+  text-align: left;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -422,9 +425,17 @@ li {
   font-family: var(--font-sans);
 }
 
+@media (min-width: 1024px) {
+  .cphs-hero-eyebrow {
+    margin-inline: 0;
+  }
+}
+
 .cphs-hero-eyebrow-dot {
+  flex-shrink: 0;
   width: 0.5rem;
   height: 0.5rem;
+  margin-top: 0.35em;
   border-radius: 999px;
   background: var(--color-coral);
   box-shadow: 0 0 0 4px rgba(239, 164, 102, 0.22);
