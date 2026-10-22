@@ -409,33 +409,33 @@ li {
 }
 
 .cphs-hero-eyebrow {
-  display: flex;
-  width: fit-content;
-  max-width: 100%;
+  display: block;
   margin: 0 auto;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 0.55rem;
-  text-align: left;
+  max-width: 22rem;
+  text-align: center;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-teal-deep);
   font-family: var(--font-sans);
+  line-height: 1.45;
 }
 
 @media (min-width: 1024px) {
   .cphs-hero-eyebrow {
     margin-inline: 0;
+    max-width: none;
+    text-align: left;
   }
 }
 
 .cphs-hero-eyebrow-dot {
-  flex-shrink: 0;
+  display: inline-block;
   width: 0.5rem;
   height: 0.5rem;
-  margin-top: 0.35em;
+  margin-right: 0.45rem;
+  vertical-align: 0.05em;
   border-radius: 999px;
   background: var(--color-coral);
   box-shadow: 0 0 0 4px rgba(239, 164, 102, 0.22);
