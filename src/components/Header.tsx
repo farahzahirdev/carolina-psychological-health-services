@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { BookButton } from "@/components/CTAButtons";
@@ -60,7 +61,7 @@ export default function Header() {
         className={`site-header${scrolled ? " is-solid" : ""}${menuOpen ? " is-menu-open" : ""}`}
       >
         <div className="container-nav relative z-[90]">
-          <a href="/" className="site-logo relative z-[90]" aria-label={SITE_NAME} onClick={close}>
+          <Link href="/" className="site-logo relative z-[90]" aria-label={SITE_NAME} onClick={close}>
             <Image
               src={LOGO_URL}
               alt={SITE_NAME}
@@ -71,7 +72,7 @@ export default function Header() {
               sizes="201px"
               unoptimized
             />
-          </a>
+          </Link>
 
           <nav className="site-nav" aria-label="Primary">
             {NAV.map((item) => (
