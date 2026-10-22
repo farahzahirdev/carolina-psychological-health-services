@@ -28,12 +28,15 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   @apply bg-cream font-sans text-charcoal antialiased;
   font-size: 1.0625rem;
   line-height: 1.7;
+  overflow-x: clip;
+  max-width: 100%;
   background-image:
     radial-gradient(ellipse 70% 45% at 100% -8%, rgba(106, 175, 170, 0.14), transparent 55%),
     radial-gradient(ellipse 50% 40% at 0% 25%, rgba(106, 175, 170, 0.08), transparent 50%),
@@ -71,7 +74,7 @@ li {
 }
 
 .container-main {
-  @apply mx-auto max-w-content px-4 sm:px-6;
+  @apply mx-auto w-full max-w-content min-w-0 px-4 sm:px-6;
 }
 
 .container-nav {
@@ -211,18 +214,25 @@ li {
 }
 
 .site-logo {
-  @apply shrink-0;
+  @apply min-w-0 shrink;
+  max-width: min(58vw, 12.5rem);
 }
 
 .site-logo img {
   display: block;
-  height: 2.75rem;
+  height: 2.5rem;
   width: auto;
+  max-width: 100%;
   image-rendering: auto;
   -webkit-font-smoothing: antialiased;
 }
 
 @media (min-width: 640px) {
+  .site-logo {
+    max-width: none;
+    @apply shrink-0;
+  }
+
   .site-logo img {
     height: 3rem;
   }
@@ -355,7 +365,7 @@ li {
 
 .cphs-hero-grid {
   display: grid;
-  gap: 2.5rem;
+  gap: 2rem;
   align-items: center;
 }
 
@@ -553,25 +563,31 @@ li {
 }
 
 .cphs-hero-visual {
-  --orb-size: min(92vw, 440px);
+  --orb-size: min(78vw, 360px);
   position: relative;
   display: grid;
   place-items: center;
   width: 100%;
+  max-width: 100%;
   min-height: var(--orb-size);
+  overflow: hidden;
+  padding-top: 1.25rem;
 }
 
 @media (min-width: 1024px) {
   .cphs-hero-visual {
     --orb-size: min(42vw, 600px);
     justify-items: end;
+    overflow: visible;
+    padding-top: 0;
   }
 }
 
 .cphs-hero-orb-glow {
   position: absolute;
-  width: calc(var(--orb-size) * 1.2);
-  height: calc(var(--orb-size) * 1.2);
+  width: calc(var(--orb-size) * 1.15);
+  height: calc(var(--orb-size) * 1.15);
+  max-width: 100%;
   border-radius: 50%;
   background: radial-gradient(
     circle,
@@ -670,11 +686,11 @@ li {
 @keyframes media-in {
   from {
     opacity: 0;
-    transform: translateX(28px) scale(0.94);
+    transform: translateY(18px) scale(0.96);
   }
   to {
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -803,7 +819,6 @@ li {
 .cphs-results {
   position: relative;
   overflow: hidden;
-  isolation: isolate;
   background: #1c2630;
   min-height: min(72vh, 640px);
   display: flex;
@@ -885,6 +900,8 @@ li {
 .cphs-stats {
   display: grid;
   gap: 1rem;
+  width: 100%;
+  min-width: 0;
 }
 
 @media (min-width: 768px) {
@@ -894,18 +911,18 @@ li {
   }
 }
 
-/* Frosted glass cards over video + coral accent */
+/* Frosted glass cards over video + coral accent
+   Note: overflow:hidden on this element breaks backdrop-filter in Chromium. */
 .cphs-stat {
   position: relative;
   padding: 1.6rem 1.35rem 1.45rem;
   text-align: center;
   border-radius: 1.15rem;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  background: rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
-  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+  backdrop-filter: blur(18px) saturate(1.25);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
   transition:
     transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
     background 0.35s ease,
@@ -922,13 +939,14 @@ li {
   height: 3px;
   border-radius: 0 0 999px 999px;
   background: #f8ad6d;
+  pointer-events: none;
 }
 
 .cphs-stat:hover {
   transform: translateY(-6px);
-  background: rgba(255, 255, 255, 0.22);
-  border-color: rgba(255, 255, 255, 0.42);
-  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.24);
+  background: rgba(255, 255, 255, 0.28);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.28);
 }
 
 .cphs-stat-value {
@@ -1079,8 +1097,15 @@ li {
   border-radius: 1.25rem;
   padding: 0.75rem;
   box-shadow: 0 18px 50px rgba(40, 51, 67, 0.08);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
   transition: box-shadow 0.4s ease;
+}
+
+.embed-panel iframe {
+  display: block;
+  max-width: 100%;
 }
 
 .embed-panel:hover {
@@ -1323,6 +1348,15 @@ li {
   transform: translateY(0);
 }
 
+/* Opacity-only: parent transform breaks backdrop-filter on glass cards */
+.reveal.reveal-fade {
+  transform: none;
+}
+
+.reveal.reveal-fade.is-visible {
+  transform: none;
+}
+
 .reveal-delay-1 {
   transition-delay: 0.08s;
 }
@@ -1346,6 +1380,8 @@ li {
   .cphs-hero-orb,
   .reveal,
   .reveal.is-visible,
+  .reveal.reveal-fade,
+  .reveal.reveal-fade.is-visible,
   .cphs-faq-panel,
   .cphs-faq-answer {
     animation: none !important;

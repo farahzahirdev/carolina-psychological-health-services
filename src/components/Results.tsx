@@ -30,7 +30,11 @@ export default function Results() {
 
         <div className="cphs-stats">
           {STATS.map((stat, index) => (
-            <Reveal key={stat.label} delay={(Math.min(index + 1, 3) as 1 | 2 | 3)}>
+            <Reveal
+              key={stat.label}
+              className="reveal-fade"
+              delay={(Math.min(index + 1, 3) as 1 | 2 | 3)}
+            >
               <article className="cphs-stat">
                 <p className="cphs-stat-value">{stat.value}</p>
                 <p className="cphs-stat-label">{stat.label}</p>
