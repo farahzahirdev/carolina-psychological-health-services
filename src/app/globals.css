@@ -823,13 +823,18 @@ li {
   object-position: center;
 }
 
-/* Soft edge only: keep video visible, improve text contrast */
+/* Even scrim so bright lobby / dark exterior frames read the same */
 .cphs-results-vignette {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 70% 65% at 50% 45%, rgba(20, 30, 38, 0.25) 0%, rgba(20, 30, 38, 0.55) 100%),
-    linear-gradient(180deg, rgba(20, 30, 38, 0.35) 0%, transparent 28%, transparent 72%, rgba(20, 30, 38, 0.4) 100%);
+    linear-gradient(
+      180deg,
+      rgba(20, 30, 38, 0.58) 0%,
+      rgba(20, 30, 38, 0.48) 42%,
+      rgba(20, 30, 38, 0.56) 100%
+    ),
+    linear-gradient(0deg, rgba(92, 167, 160, 0.16), rgba(92, 167, 160, 0.16));
   pointer-events: none;
 }
 
